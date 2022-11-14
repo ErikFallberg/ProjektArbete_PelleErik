@@ -18,7 +18,7 @@ namespace ConsoleApp1
          => this.x == other.x && this.y == other.y;
         
         
-
+        // Generera spawnlocations kan ske här. 
 
     }
 }

@@ -53,6 +53,7 @@ namespace ConsoleApp1
         bool dead = false;
 
         public bool GetDead() => dead;
+        public bool SetDead() => dead = true;
 
         public override void MakeMove(ConsoleKey input, Monster[] monsters)
         {
