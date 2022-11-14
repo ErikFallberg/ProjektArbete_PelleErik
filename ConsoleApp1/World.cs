@@ -13,7 +13,7 @@ namespace ConsoleApp1
         Player player = new Player();
 
         public List<Item> tempItem = new List<Item>() { };
-
+        //
         //int score; {get;}
         //int kills;
         //int itemspickedup;

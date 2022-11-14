@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleApp1
 {
-    class Item
+    class Item // Bara för tillfället själva svärdet , utan wefw bara för svärdrenderingen
     {
         string id;
         Coordinates coordinate;
