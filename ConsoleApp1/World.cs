@@ -6,13 +6,14 @@ namespace ConsoleApp1
 {
     class World
     {
-        (Coordinates, char)[] map;
+        (Coordinate, char)[] map;
         int size;  // Visar hur stor världen är, sätter manuellt. 
 
         List<Monster> allMonsters = new List<Monster>() { }; // 
-        Player player = new Player();
 
-        public List<Item> tempItem = new List<Item>() { };
+        Player player;
+
+        //public List<Item> sword = null;  // Svärdet sparas som en static "ITEM" (nu sword)
         //
         //int score; {get;}
         //int kills;
@@ -20,9 +21,11 @@ namespace ConsoleApp1
 
         public void TakeTurn()
         {
+            //Direction input = (Direction)Console.ReadKey().Key;             // Vi kan jobba med direction som en enumerator istället för consolekeys. Up / Down / Left / Right är nu av typen direction.
+            ConsoleKey input = Console.ReadKey().Key;
             //player.MakeMove();
             //CheckAttack();
-            allMonsters.RemoveAll(monster => monster.GetDead() == true);
+            allMonsters.RemoveAll(monster => monster.Dead == true);
             foreach(Monster monster in allMonsters)
             {
               //  monster.MakeMove();
@@ -37,7 +40,7 @@ namespace ConsoleApp1
         }
 
 
-        public (Coordinates, char)[] CreateMap()
+        public (Coordinate, char)[] CreateMap()
         {
 
             return map;
