@@ -8,7 +8,6 @@ namespace ConsoleApp1
     class Character
     {
         char id;
-
         protected Coordinate coordinate;
         public Coordinate Coordinate { get; }
 
@@ -22,7 +21,7 @@ namespace ConsoleApp1
             this.coordinate = coordinate;
         }
         //public virtual void MakeMove(ConsoleKey input, Monster[] monsters)        // Den här behövs inte när vi har två listor med monsters och players eftersom vi kan kalla på MakeMove. Makemove har inget gemensamt. Move har
-        //{                                                                             // Försöker behålla metoderna som public void MakeMove() ifall vi kommer på något vi kan overloada med. Kanske ändra input till direction?
+        //{                                                                             // Försöker behålla metoderna som public void MakeMove() ifall vi kommer på något vi kan overloada med. Men är inte det just nu
         //    direction = input;
         //    Move(input);
         //}
@@ -52,9 +51,9 @@ namespace ConsoleApp1
          => this.name = name;
         
         public static Player CreatePlayer()
-        => new Player('0', 20, "Player 1");                     // Konstruktor Player, namnsättningen kan få göras av spelaren istället. (eller i world)
+        => new Player('0', 20, "Player 1");                     // Factory Player, namnsättningen kan få göras av spelaren istället. (eller i world)
 
-        public void MakeMove(ConsoleKey input, Monster[] monsters)            // Spaghettikod, Kan returnera svärdets positioner istället för en egen Klass.
+        public void MakeMove(ConsoleKey input, Monster[] monsters)            // Spaghettikod, Kan returnera svärdets positioner istället för att hålla ett svärd
         {
 
             if (input == ConsoleKey.Spacebar)
@@ -100,11 +99,12 @@ namespace ConsoleApp1
         }
         private ConsoleKey GenerateInput()
         {
+
             return ConsoleKey.Decimal;
         }
         private bool MonsterAttack()
         {
-
+            //if (coordinate.CheckOne(direction) == )                 //FIX
             return false;
         }
     }
