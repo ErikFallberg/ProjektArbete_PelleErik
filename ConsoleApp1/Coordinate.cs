@@ -16,7 +16,41 @@ namespace ConsoleApp1
         }
         public bool CompareWith(Coordinate other)
          => this.x == other.x && this.y == other.y;
-        
+
+        //public bool CompareX(Coordinate other) => x > other.x;
+        //public bool CompareY(Coordinate other) => y > other.y;
+
+        public Coordinate Compare(Coordinate other) => new Coordinate(x - other.x, y - other.y);
+
+        public ConsoleKey GenerateInput(Coordinate other)
+        {
+            Coordinate difference = Compare(other);
+
+            Random rand = new Random();
+            int random = rand.Next(0, 2);
+            
+            if (difference.x == 0)
+            {
+                return difference.y > 0 ? ConsoleKey.S : ConsoleKey.W;
+            }
+            if (difference.y == 0)
+            {
+                return difference.x > 0 ? ConsoleKey.A : ConsoleKey.D;
+            }
+            if (difference.x > 0 && random == 0)
+            {
+                return ConsoleKey.A;
+            }
+            else if (difference.x < 0 && random == 0)
+            {
+                return ConsoleKey.D;
+            }
+            else
+            { 
+                return difference.y > 0 ? ConsoleKey.S : ConsoleKey.W;
+            }            
+        }
+
         public Coordinate Add(Direction direction, int steps)
         {
             return direction switch

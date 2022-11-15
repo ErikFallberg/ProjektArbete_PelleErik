@@ -89,23 +89,20 @@ namespace ConsoleApp1
         
           
         
-        public void MakeMove(ConsoleKey input, Monster[] monsters)
+        public void MakeMove(Monster[] monsters, Player player)
         {
-            if (!MonsterAttack())
-            {
-                input = GenerateInput();
-                Move(input, monsters);
-            }
+            if (!MonsterAttack(player))           
+                Move(coordinate.GenerateInput(player.Coordinate), monsters);            
         }
-        private ConsoleKey GenerateInput()
-        {
 
-            return ConsoleKey.Decimal;
-        }
-        private bool MonsterAttack()
+        private bool MonsterAttack(Player player)
         {
-            //if (coordinate.CheckOne(direction) == )                 //FIX
-            return false;
+            if (coordinate.CheckOne(direction) == player.Coordinate)
+            {
+                health -= 1;
+                return true;
+            }
+            else return false;            
         }
     }
 
