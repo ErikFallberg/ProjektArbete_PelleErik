@@ -22,17 +22,17 @@ namespace ConsoleApp1
             World world = new World();   // CreateMap();
 
 
-            //while (true)
-            //{
-            //    Console.WriteLine($"Current turn:{turnCounter}. Your life: {Character.health}. Current level: {level}");
-            //    world.Showmap();
-            //    world.TakeTurn();
-            //    world.Spawn(level);
+            while (true)
+            {
+                Console.WriteLine($"Current turn:{turnCounter}. Your life: {Character.health}. Current level: {level}");
+                world.Showmap();
+                world.TakeTurn();
+                world.Spawn(level);
 
-            //    Console.Clear();
+                Console.Clear();
 
-            //    turnCounter++;
-            //}
+                turnCounter++;
+            }
 
         }
         

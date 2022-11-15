@@ -12,14 +12,14 @@ namespace ConsoleApp1
         protected Coordinate coordinate;
         public Coordinate Coordinate { get; }
 
-        protected ConsoleKey direction;  // Vill ändra från en ConsoleKey till en Direction - måste ha en try catch någonstans för att fånga att vi fått in rätt kommando. Dessutom ska man kunna attackera fortfarande.
+        protected Direction direction = Direction.Up;  // Vill ändra från en ConsoleKey till en Direction - måste ha en try catch någonstans för att fånga att vi fått in rätt kommando. Dessutom ska man kunna attackera fortfarande.
 
         public static int health = 20;
 
         protected Character(char id, Coordinate coordinate)
         {
             this.id = id;
-            coordinate = coordinate;
+            this.coordinate = coordinate;
         }
         //public virtual void MakeMove(ConsoleKey input, Monster[] monsters)        // Den här behövs inte när vi har två listor med monsters och players eftersom vi kan kalla på MakeMove. Makemove har inget gemensamt. Move har
         //{                                                                             // Försöker behålla metoderna som public void MakeMove() ifall vi kommer på något vi kan overloada med. Kanske ändra input till direction?
@@ -28,8 +28,16 @@ namespace ConsoleApp1
         //}
 
         protected void Move(ConsoleKey input, Monster[] monsters)
-        {
-            direction = input;
+        {            
+            if (input == ConsoleKey.A || input == ConsoleKey.D || input == ConsoleKey.W || input == ConsoleKey.S)
+            {
+                direction = (Direction)input;
+                foreach (Monster monster in monsters)
+                    if (coordinate.CheckOne(direction) == monster.coordinate)
+                        return;
+                coordinate.MoveOne(direction);
+            }
+            //direction = input;
         }
         // GetDirection för simplifiering. Och i world om vi har flera sprites.
     }
@@ -37,9 +45,10 @@ namespace ConsoleApp1
     class Player : Character
     {       
         int swordLength = 1;
-        string name;                                        // Namn finns bara för att kunna spara spelhighscore - kanske borde finnas i World istället?
+        string name;                // Namn finns bara för att kunna spara spelhighscore - kanske borde finnas i World istället?
+        Item[] swords;
 
-        private Player(char id, int size, string name) : base(id, new Coordinate(size / 2, size / 2))
+        private Player(char id, int size, string name) : base(id, new Coordinate(size / 2, size / 2)) // Konstruktorn är inte injicerad!
          => this.name = name;
         
         public static Player CreatePlayer()
@@ -53,13 +62,13 @@ namespace ConsoleApp1
             else
                 Move(input, monsters);                           
         }
-        private void Attack(Monster[] monsters)                                 // Enda sättet jag kan komma på för att skapa svärdet är att göra en egen klass av det.
+        private void Attack(Monster[] monsters)                               
         {
-            Sword.CreateSword(coordinate, swordLength, (Direction)direction);
+            swords = Item.CreateSword(coordinate, swordLength, direction);
             foreach (Monster monster in monsters)
             {
-                foreach (Coordinate swordcoordinate in Sword.Coordinates)
-                    if (swordcoordinate == monster.Coordinate)
+                foreach (Item sword in swords)
+                    if (sword.Coordinate == monster.Coordinate)
                     {
                         monster.Dead = true;                                    // istället för GetDead här skulle vi kunna göra så att monstret i sin makemove kollar ifall den är på svärdet och isåfall dödar sig själv.
                     }
@@ -70,14 +79,14 @@ namespace ConsoleApp1
 
     class Monster : Character
     {
-        bool dead = false;
         public bool Dead { get; set; }
-       
 
-        private Monster(char id) : base(id, Coordinate.SpawnLocation()) { }
 
-        public Monster CreateMonster()                      //Konstruktor för Monster.
-            => new Monster('X');
+        private Monster(char id, Direction direction) : base(id, Coordinate.SpawnLocation())
+            => this.direction = direction;
+
+        public Monster CreateMonster()                      //Konstruktor för Monster. Börjar alltid kollandes neråt, kanske kan fixas till att kolla på spelaren???
+            => new Monster('X', Direction.Down);
         
           
         
